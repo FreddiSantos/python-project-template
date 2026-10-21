@@ -12,6 +12,7 @@ dependencies = []
 [dependency-groups]
 dev = [
   "pytest>=9.1",
+  "pytest-cov>=7.1",
   "ruff>=0.17",
 ]
 
@@ -33,3 +34,12 @@ select = ["E", "F", "I", "B", "UP", "SIM"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra"
+
+[tool.coverage.run]
+source = ["project_name"]
+branch = true
+
+[tool.coverage.report]
+# Falha se a cobertura cair abaixo de 80%. Ajuste conforme o projeto amadurecer.
+fail_under = 80
+show_missing = true

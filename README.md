@@ -1,4 +1,11 @@
-<!-- TEMPLATE: substitua todos os trechos entre <> e apague este comentário. Renomeie src/project_name e o "name" no pyproject.toml. -->
+<!--
+TEMPLATE — checklist ao criar um projeto novo (apague este comentário no fim):
+1. Substitua todos os trechos entre <> neste README e no CITATION.cff.
+2. Renomeie src/project_name e ajuste "name" e "module-name" no pyproject.toml e "source" em [tool.coverage.run].
+3. Rode `uv lock` para atualizar o uv.lock.
+4. Adicione topics ao repositório (ex.: machine-learning, python, civil-engineering).
+-->
+
 
 # <Project name>
 
@@ -30,6 +37,18 @@ uv run pytest
 
 <How to run the main script or notebook, e.g. `uv run python -m project_name`.>
 
+If the project uses API keys, copy `.env.example` to `.env` and fill it in. The `.env` file is never committed.
+
+### Project structure
+
+```text
+├── data/            # raw data (not versioned, see data/README.md)
+├── notebooks/       # exploration notebooks
+├── src/project_name # source code
+├── tests/           # automated tests
+└── pyproject.toml   # dependencies and tool settings
+```
+
 ### Data
 
 <Where the data comes from, its license, and how to download it. Raw data is not versioned — see [data/README.md](data/README.md).>
@@ -37,7 +56,8 @@ uv run pytest
 ### Reproducibility
 
 - Dependencies are pinned in `uv.lock`.
-- Random seed: <value and where it is set>.
+- Random seed: `SEED` in `.env` (default `42`), applied in <where it is set>.
+- Hardware used for the reported results: <CPU/GPU, RAM>.
 
 ## Stack
 
@@ -55,6 +75,10 @@ uv run pytest
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). This project follows the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Citation
+
+If this project helps your work, please cite it using the **Cite this repository** button (generated from [CITATION.cff](CITATION.cff)).
 
 ## License
 

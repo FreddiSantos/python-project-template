@@ -1,4 +1,6 @@
 # Lint, testes e build a cada push e pull request.
+# As actions são fixadas por SHA (recomendação de segurança do GitHub/OpenSSF);
+# o comentário mostra a versão, e o Dependabot atualiza as duas coisas juntas.
 name: CI
 
 on:
@@ -15,27 +17,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
-    name: Lint, test, build
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
-
-      - uses: astral-sh/setup-uv@v10.3.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           enable-cache: true
-
-      - name: Install dependencies
-        run: uv sync --locked
-
+      - run: uv sync --locked
       - name: Lint
         run: uv run ruff check --output-format=github .
-
       - name: Check formatting
         run: uv run ruff format --check .
 
-      - name: Test
-        run: uv run pytest
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync --locked
+      - name: Test with coverage
+        run: uv run pytest --cov --cov-report=term-missing
 
-      - name: Build
-        run: uv build
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+      - run: uv build
