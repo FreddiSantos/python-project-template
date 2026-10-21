@@ -1,7 +1,7 @@
 # Lê os commits da main (feat:, fix:, ...) e mantém um PR "chore(main): release X.Y.Z"
 # com CHANGELOG.md e versão atualizados. Ao fazer merge desse PR, cria a tag e a release.
 # Requer: Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests"
-# (o script github-setup/scripts/Set-RepoSecurity.ps1 -AllowActionsPullRequests ativa).
+# (o script github-setup/scripts/Set-RepoDefaults.ps1 -AllowActionsPullRequests ativa).
 name: Release Please
 
 on:
