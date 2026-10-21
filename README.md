@@ -4,8 +4,11 @@ TEMPLATE — checklist ao criar um projeto novo (apague este comentário no fim)
 2. Renomeie src/project_name e ajuste "name" e "module-name" no pyproject.toml e "source" em [tool.coverage.run].
 3. Rode `uv lock` para atualizar o uv.lock.
 4. Adicione topics ao repositório (ex.: machine-learning, python, civil-engineering).
+5. Rode os scripts do github-setup: Set-RepoDefaults.ps1 (segurança, ruleset) e Set-Labels.ps1.
+6. Apague o aviso "This is a template repository" logo abaixo.
 -->
 
+> 🧩 **This is a template repository.** Click **Use this template** to start a Python / data science project with CI (lint, tests on Python 3.12–3.13, build), CodeQL, Dependabot, pre-commit (ruff, gitleaks, nbstripout), Conventional Commits and automated releases already configured. Everything below is the README skeleton for the new project. _(Delete this note in your project.)_
 
 # <Project name>
 
