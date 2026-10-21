@@ -18,7 +18,8 @@ concurrency:
 
 jobs:
   lint:
-    name: Lint
+    # Roda os mesmos hooks do .pre-commit-config.yaml (ruff, gitleaks, uv-lock...).
+    name: Lint (pre-commit)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -26,11 +27,13 @@ jobs:
       - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
         with:
           enable-cache: true
-      - run: uv sync --locked
-      - name: Lint
-        run: uv run ruff check --output-format=github .
-      - name: Check formatting
-        run: uv run ruff format --check .
+      - name: Cache pre-commit environments
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Run pre-commit
+        run: uvx pre-commit@4.7.0 run --all-files --show-diff-on-failure --color=always
 
   test:
     name: Test (Python ${{ matrix.python-version }})
